@@ -1,0 +1,73 @@
+body {
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+}
+.contCarro {
+  margin-top: 5rem;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 1rem;
+}
+.contTotal {
+  margin-top: 2rem;
+  font-size: 2rem;
+  text-align: right;
+  padding-right: 3rem;
+}
+
+#table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4caf50;
+  color: white;
+}
+#table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+#table tr:nth-child(odd) {
+  background-color: #f0dcdc;
+}
+#table tr:hover {
+  background-color: #d3f0d5;
+}
+.contTotal {
+  background-color: #4caf50;
+  font-weight: bold;
+}
+/* .fila{
+    vertical-align: middle;
+    padding-top: auto;
+    padding-bottom: auto;
+} */
+.numeros{
+    text-align: right;
+}
+.enviar{
+    width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+    margin-top: 2rem;
+    text-align: right;
+    padding-right: 2rem;
+    /* width: 20%;
+    min-width: 5rem; */
+}
+.enviar button{
+    width: 20%;
+    min-width: 5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+.imagenThumb{
+  width: 6rem;
+  height: 6rem;
+}
+

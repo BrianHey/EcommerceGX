@@ -1,0 +1,72 @@
+body {
+color: black;
+font-family: 'Sen', sans-serif;
+font-weight: 400;
+line-height: 0;
+}
+.boton {
+    width: 5rem;
+    border-radius: 20rem;
+    margin-bottom: 1rem;
+    align-self: center;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: nowrap;
+    background-color: rgb(221, 221, 221);
+    padding: 3rem;
+    border-radius: 1.5rem;
+    line-height: 1.5rem;
+}
+
+#mensaje {
+    background-color: coral;
+    border-radius: 10rem;
+    color: black;
+    font-weight: 700;
+}
+
+h1{
+font-weight: 700;
+text-align: center;
+}
+
+input{
+border-radius: 1rem;
+padding-left: 1rem;
+}
+
+
+
+
+
+.e {
+    width: 70px;
+   /*  Clase del logo */
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    /* clase del footer */
+}
+
+.container2 {
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 100%;
+    /* clase del footer */
+}
+
+.iconos {
+    background-color: gainsboro;
+    text-align: center;
+    margin-top: 3rem;
+   /*  clase del footer */
+}

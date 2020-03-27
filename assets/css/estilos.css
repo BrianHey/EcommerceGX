@@ -1,0 +1,54 @@
+.e {
+    width: 70px;
+    
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.fondo {
+  
+    background-image: url('../img/fondop.jpeg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover ;
+    padding: 20%;
+      
+}
+
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 100%;
+}
+.fecha {
+    color: rgb(242, 182, 22);
+    font-size: 60px;
+    font-weight: 700;
+    margin-top: 0;
+    padding-bottom: 30px;
+    margin-bottom: 50px;
+}
+
+.compre {
+    color: white;
+    font-size: 50px;
+    font-weight: 600;
+
+}
+
+
+.producto {
+   margin: 50px;
+    padding-top: 100px;
+}
+.iconos {
+    background-color: gainsboro;
+    text-align: center;
+}
+
+
