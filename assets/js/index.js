@@ -44,7 +44,7 @@ const createProductTemplate = (name, price, stock, category, imageSrc) => {
   let template = `
   
   <div class="card col-3">
-  <h6 class="card-title titleOne">${name} </h6>
+  <h6 class="card-title titleOne"><Label class="card-title">${name}</Label> </h6>
     <img src="${imageSrc}" class="card-img-top" alt="...">    
     <p class="card-text"> Valor: $ ${price}</p>      
     <p class="product__stock card-text"><strong>Stock:</strong> ${stock}</p>
@@ -70,20 +70,21 @@ const createPaginationTemplate = pages => {
 //  Fin de las funciones para la lista de productos
 
 // Lógica para la busqueda general
-
-$('#search').on('keyup', function() {
-  let value = $(this)
-    .val()
-    .toLowerCase()
-  $('.row div').filter(function(i) {
-    $(this).toggle(
-      $(this)
-        .text()
-        .toLowerCase()
-        .indexOf(value) > -1
-    )
+$('#search').keyup(function(){
+  let productoTitle = $('.card-title');
+  let buscando = $(this).val();
+  let item='';
+  for( let i = 0; i < productoTitle.length; i++ ){
+      item = $(productoTitle[i]).html().toLowerCase();
+       for(let x = 0; x < item.length; x++ ){
+           if( buscando.length == 0 || item.indexOf( buscando ) > -1 ){
+               $(productoTitle[i]).parent('.card-body').show(); 
+           }else{
+                $(productoTitle[i]).parent('.card-body').hide();
+           }
+       }
+  }  
   })
-})
 
 // Fin de la logica para la busqueda general
 
