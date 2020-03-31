@@ -24,32 +24,35 @@ const renderProductList = productArray => {
     </div>
   `)
   } else if (arrayLength <= 10) {
-    for (let entry of productArray) {
+    productArray.forEach((entry, i) => {
       let product = entry.data
       let { name, price, stock, category, imageSrc } = product
 
-      $('.product-list').append(createProductTemplate(name, price, stock, category, imageSrc))
-    }
+      $('.product-list').append(createProductTemplate(name, price, stock, category, imageSrc, i))
+    })
   } else {
     for (let i = 0; i <= 10; i++) {
       let product = productArray[i].data
       let { name, price, stock, category, imageSrc } = product
-      $('.product-list').append(createProductTemplate(name, price, stock, category, imageSrc))
+      $('.product-list').append(createProductTemplate(name, price, stock, category, imageSrc, i))
     }
     $('.pagination').append(createPaginationTemplate(pages))
   }
 }
 
-const createProductTemplate = (name, price, stock, category, imageSrc) => {
+const createProductTemplate = (name, price, stock, category, imageSrc, i) => {
   let template = `
   
-  <div class="card col-3">
+  <div class="card col-3 my-2 py-3">
   <h6 class="card-title titleOne">${name} </h6>
-    <img src="${imageSrc}" class="card-img-top" alt="...">    
+    <div id="imagenesCards" style="background-image: url(${imageSrc})" ></div>  
     <p class="card-text"> Valor: $ ${price}</p>      
     <p class="product__stock card-text"><strong>Stock:</strong> ${stock}</p>
-    <p class="card-text"><strong>Categoría:</strong> <a href="#">${category}</a></p>
-    <button class="btn btn-success" onclick="addProduct('${name}','${imageSrc}','${price}','${stock}','${category}')">Agregar al carro</button>
+    <p class="card-text"><strong>Categoría:</strong>  ${i} <a href="#">${category}</a></p>
+
+    <p class="card-text"><strong>Cantidad:</strong> <input type="number" class="id-${i}" value="1" id="cantProducts">
+
+    <button class="btn btn-success" onclick="addProduct('${name}','${imageSrc}','${price}','${stock}','${category}', $('.id-${i}').val())">Agregar al carro</button>
   </div>
   
 `
@@ -89,24 +92,47 @@ $('#search').on('keyup', function() {
 
 //  Lógica para agregar productos al carrito
 
-function addProduct(name, imageSrc, price, stock, category) {
-  console.log(localStorage.getItem('carrito'))
-  let detalleAlCarro = []
-  if (!localStorage.getItem('carrito')) {
-    detalleAlCarro.push({
-      data: { name, price, stock, imageSrc, category },
-    })
-    localStorage.setItem('carrito', JSON.stringify(detalleAlCarro))
-  } else {
-    detalleAlCarro = JSON.parse(localStorage.getItem('carrito'))
-    detalleAlCarro.push({
-      data: { name, price, stock, imageSrc, category },
-    })
-    localStorage.setItem('carrito', JSON.stringify(detalleAlCarro))
+function addProduct(name, imageSrc, price, stock, category, cantProduct) {
+  console.log(cantProduct)
+
+  if (cantProduct > 0) {
+    let detalleAlCarro = []
+    if (!localStorage.getItem('carrito')) {
+      detalleAlCarro.push({
+        data: { name, price, stock, imageSrc, category, cantProduct: cantProduct },
+      })
+      
+      localStorage.setItem('carrito', JSON.stringify(detalleAlCarro))
+      alert('Producto Guardado en el carrito')
+    } else {
+      detalleAlCarro = JSON.parse(localStorage.getItem('carrito'))
+      verificarProdYaSelected(name, imageSrc, price, stock, category, cantProduct, detalleAlCarro);
+    }
+    console.log(detalleAlCarro)
+  }else{
+    alert('Ingrese una cantidad lógica')
   }
+}
 
-  console.log(detalleAlCarro)
-
-
-  alert('Producto Guardado en el carrito')
+function verificarProdYaSelected(name, imageSrc, price, stock, category, cantProduct, detalleAlCarro){
+  detalleAlCarro.forEach(element => {
+    if((name + imageSrc + price + stock + category) == (element.data.name + element.data.imageSrc + element.data.price + element.data.stock + element.data.category)){
+      Swal.fire({
+        title: 'Aviso, contenido del carrito',
+        text: `El producto seleccionado "${name}" ya tiene ${element.data.cantProduct} unidades en el carrito.`,
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Agregar'
+      }).then((result) => {
+        if (result.value) {
+          element.data.cantProduct = parseInt(element.data.cantProduct) + parseInt(cantProduct);
+          localStorage.setItem('carrito', JSON.stringify(detalleAlCarro))
+          alert('Producto Guardado en el carrito')
+        }
+      })
+    }
+  });
 }
