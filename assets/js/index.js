@@ -75,7 +75,7 @@ $('#search').keyup(function(){
   let buscando = $(this).val();
   let item='';
   for( let i = 0; i < productoTitle.length; i++ ){
-      item = $(productoTitle[i]).html().toLowerCase();
+      item = $(productoTitle[i]).toLowerCase();
        for(let x = 0; x < item.length; x++ ){
            if( buscando.length == 0 || item.indexOf( buscando ) > -1 ){
                $(productoTitle[i]).parent('.card-body').show(); 
