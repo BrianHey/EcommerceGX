@@ -8,6 +8,9 @@
     margin-right: -15px;
     margin-left: -15px;
 }
+#ColCategorias{
+    padding-left: inherit;
+}
 .fondo {
   
     background-image: url('../img/fondop.jpeg');
@@ -15,6 +18,7 @@
     background-position: center center;
     background-size: cover ;
     padding: 20%;
+    height: 100px;
       
 }
 

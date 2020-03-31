@@ -43,13 +43,15 @@ const renderProductList = productArray => {
 const createProductTemplate = (name, price, stock, category, imageSrc) => {
   let template = `
   
-  <div class="card col-3">
-  <h6 class="card-title titleOne">${name} </h6>
-    <img src="${imageSrc}" class="card-img-top" alt="...">    
-    <p class="card-text"> Valor: $ ${price}</p>      
-    <p class="product__stock card-text"><strong>Stock:</strong> ${stock}</p>
-    <p class="card-text"><strong>Categoría:</strong> <a href="#">${category}</a></p>
-    <button class="btn btn-success" onclick="addProduct('${name}','${imageSrc}','${price}','${stock}','${category}')">Agregar al carro</button>
+  <div class="card col-lg-4 col-md-6 col-xs-10">
+    <div class="card-body">
+    <h6 class="card-title titleOne"><label class = "card-title">${name} </label></h6>
+      <img src="${imageSrc}" class="card-img-top" alt="...">    
+      <p class="card-text"> Valor: $ ${price}</p>      
+      <p class="product__stock card-text"><strong>Stock:</strong> ${stock}</p>
+      <p class="card-text category"><strong>Categoría:</strong> <a href="#">${category}</a></p>
+      <button class="btn btn-success" onclick="addProduct('${name}','${imageSrc}','${price}','${stock}','${category}')">Agregar al carro</button>
+    </div>
   </div>
   
 `
@@ -72,17 +74,37 @@ const createPaginationTemplate = pages => {
 // Lógica para la busqueda general
 
 $('#search').on('keyup', function() {
-  let value = $(this)
-    .val()
-    .toLowerCase()
-  $('.row div').filter(function(i) {
-    $(this).toggle(
-      $(this)
-        .text()
-        .toLowerCase()
-        .indexOf(value) > -1
-    )
-  })
+  $('#search').keyup(function(){
+    let producto = $('.card-title');
+    let buscando = $(this).val();
+    let item='';
+    for( let i = 0; i < producto.length; i++ ){
+        item = $(producto[i]).html().toLowerCase();
+         for(let x = 0; x < item.length; x++ ){
+             if( buscando.length == 0 || item.indexOf( buscando ) > -1 ){
+                 $(producto[i]).parents('.card-body').show(); 
+             }else{
+                  $(producto[i]).parents('.card-body').hide();
+             }
+         }
+    }  
+})
+})
+
+$('.btnCategory').click(function() {
+  let valor = this.value
+  let producto = $('.category');
+  for( let i = 0; i < producto.length; i++ ){
+    item = $(producto[i]).html().toLowerCase();
+     for(let x = 0; x < item.length; x++ ){
+         if( valor.length == 0 || item.indexOf( valor ) > -1 ){
+             $(producto[i]).parents('.card-body').show(); 
+         }else{
+              $(producto[i]).parents('.card-body').hide();
+         }
+     }
+}     
+    
 })
 
 // Fin de la logica para la busqueda general
@@ -110,3 +132,4 @@ function addProduct(name, imageSrc, price, stock, category) {
 
   alert('Producto Guardado en el carrito')
 }
+

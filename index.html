@@ -23,7 +23,7 @@
   </head>
   <body>
     <!-- Nav -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="#">
         <img class="e" src="assets/img/E.png" alt="" />
       </a>
@@ -51,7 +51,7 @@
             <a class="nav-link" href="carrito.html">Carrito</a>
           </li>
           <li class="nav-item">
-            <input type="text" class="form-control" id="search" placeholder="Buscar productos">
+            <!-- <input type="text" class="form-control" id="search" placeholder="Buscar productos"> -->
           </li>
 
         </ul>
@@ -74,14 +74,48 @@
       </div>
     </header>
     <!-- Header -->
-
-    <!-- Lista de productos  -->
-    <div class="container-fluid p-5">
-      <div class="product-list row"></div>
-
-      <ul class="pagination justify-content-center"></ul>
-    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col" id="ColCategorias">
+            <table class="table table-dark">
+              <tbody>
+                <tr>
+                  <th scope="col" class="prueba"><button class="btn btn-dark btnCategory" value="otros">Otros</button>
+                <tr>
+                  <th scope="row"><button class="btn btn-dark btnCategory" value="developer">Developer</button></th>
+                </tr>
+                <tr>
+                  <th scope="row"><button class="btn btn-dark btnCategory" id="vestimenta" value="vestimenta">Vestimenta</button></th>
+                  
+                </tr>
+                <tr>
+                  <th scope="row"><button class="btn btn-dark btnCategory" id="tecnologia" value="5">Tecnologia</button></th>
+                </tr>
+                <tr>
+                  <th scope="row"><button class="btn btn-dark btnCategory" id="autos" value="autos">Autos</button></th>
+                </tr>
+                <tr>
+                  <th scope="row"><button class="btn btn-dark">Menor a Mayor</button></th>
+                </tr>
+                <tr>
+                  <th scope="row"><button class="btn btn-dark">Mayor a Menor</button></th>
+                </tr>
+                <tr>
+                  <input type="text" class="form-control" id="search" placeholder="Buscar productos">
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <!-- Lista de productos  -->
+        <div class="col-10 p-5">
+          <div class="product-list row"></div>
+          <ul class="pagination justify-content-center"></ul>
     <!-- </ Lista de productos > -->
+        </div>
+      </div>
+    </div>
+  
+    
 
     <!-- Footer -->
     <footer class="iconos">
