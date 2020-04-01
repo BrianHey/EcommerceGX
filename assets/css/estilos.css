@@ -7,13 +7,17 @@
   margin-right: -15px;
   margin-left: -15px;
 }
-.fondo {
-  background-image: url('../img/fondop.jpeg');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  padding: 20%;
+#ColCategorias{
+    padding-left: inherit;
 }
+  
+    background-image: url('../img/fondop.jpeg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover ;
+    padding: 20%;
+    height: 100px;
+      
 
 .container {
   margin-right: auto;

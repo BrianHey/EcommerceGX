@@ -40,7 +40,7 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarColor03">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto w-100">
           <li class="nav-item active">
             <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
           </li>
@@ -52,6 +52,9 @@
           </li>
           <li class="nav-item">
             <input type="text" class="form-control" id="search" placeholder="Buscar productos">
+          </li>
+          <li class="nav-item ml-auto pr-5">
+             <h6>Total a pagar: <span id="total">0</span> </h6> 
           </li>
 
         </ul>
@@ -79,7 +82,7 @@
     <div class="container-fluid p-5 row">
       <div class="col-2">
 
-        <li class="page-item"><a class="page-link" onclick="atrasPage()"  href="#">Anterior</a></li>
+        <li class="page-item"><button class="page-link anterior" onclick="atrasPage()" >Anterior</button></li>
       </div>
       <div class="col-8">
         <div class="product-list row "></div>
@@ -87,7 +90,7 @@
       <ul class="pagination justify-content-center"></ul>
       </div>
       <div class="col-2">
-        <li class="page-item"><a class="page-link" onclick="despuesPage()" href="#">Despues</a></li>
+        <li class="page-item"><button class="page-link despues" onclick="despuesPage()" >Despues</button></li>
       </div>
     </div>
     <!-- </ Lista de productos > -->
@@ -123,10 +126,8 @@
         <a href="https://mdbootstrap.com/"> MDBootswatch.com</a>
       </div>
       <!-- Copyright -->
-      <center> hecho por los alumnos de frontend de Desafío Latam 2020</center>
     </footer>
     <!-- Footer -->
-
 
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -150,8 +151,6 @@
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    
     <script src="assets/js/index.js"></script>
   </body>
 </html>
