@@ -60,3 +60,10 @@
 ul,ol ,li {
   list-style: none;
 }
+.inputCAntidad{
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+.botonAgregar{
+  width: 100%;
+}
