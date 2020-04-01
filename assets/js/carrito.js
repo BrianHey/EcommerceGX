@@ -1,46 +1,17 @@
 $(window).on("load", function () {
 
-  let cargarNav = function () {
-    $("#nav").load("assets/templates/nav.html");
-  }
-  cargarNav();
-
-  let cargarPiePag = function(){
-    $("#pie").load("assets/templates/footer.html", function (responseTxt, statusTxt, jqXHR) {
-      if (statusTxt == "success") {
-        positionFooter(-64);
-      }
-    });
-  }
-  cargarPiePag();
-
-
-  let positionFooter = function (margen) {
+  let positionFooter = function(){
     let footerTop = $('#footer').position().top + $('#footer').height();
     if (footerTop < $(window).height()) {
-      $('#footer').css('margin-top', ((margen) + ($(window).height() - footerTop)) + 'px');
+      $('#footer').css('margin-top', 0 + ($(window).height() - footerTop) + 'px');
     }
   }
-
   
-
   let detalleAlCarro = []; //lista de productos
   let listaProdApi = [];//informacion base para hacer PUT en API
 
   if (localStorage.carrito) {
     detalleAlCarro = JSON.parse(localStorage.getItem('carrito'));
-    //agrupar productos agruparProductos(detalleAlCarro)
-  }
-
-  let agruparProductos = function(listaBrutaProdSelected){
-    detalleAlCarro.forEach(element => {
-      //generar array temporal para copiar elementos
-      //recorrer TODO el array buscando coincidencias por id_virtual (no tengo de otra)
-        //si se encuentran, agregar al elemento primario y eliminar
-        //mejorar procedimiento ***************
-
-        //EN CONSTRUCCIÓN, no molestar!!!
-    });
   }
 
   function formatNumber(num) {
@@ -51,21 +22,28 @@ $(window).on("load", function () {
     $('[name="retirar"]').on("click", function (e) {
       let identi = $(this).attr("id");
       removerProd2(identi);
+      // detalleAlCarro = detalleAlCarro.filter(function (element) {
+      //   return `${element.data.idTemp}` != identi;
+      // });
+      // localStorage.setItem('carrito', JSON.stringify(detalleAlCarro))
+      // cargarTabla();
     });
   }
   function removerProd2(idProd) {
     detalleAlCarro = detalleAlCarro.filter(function (element) {
 
-      if (`${element.data.idTemp}` != idProd) {
+      if(`${element.data.idTemp}` != idProd){
         return true;
-      } else {
-        if (element.data.cantProduct > 1) {
-          element.data.cantProduct--;
+      }else{
+        if(element.data.cantidadProd > 1){
+          element.data.cantidadProd --;
           return true;
-        } else {
+        }else{
           return false;
         }
       }
+      // return element.data.cantidadProd > 1? element.data.cantidadProd -- : `${element.data.idTemp}` != idProd;
+      // return `${element.data.idTemp}` != idProd;
     });
     localStorage.setItem('carrito', JSON.stringify(detalleAlCarro))
     cargarTabla();
@@ -88,13 +66,13 @@ $(window).on("load", function () {
     let total = 0;
     let i = 1;
     let cantidadMostrar = 1;
-
+    
     detalleAlCarro.sort(ordenarArray);
     detalleAlCarro.forEach(element => {
 
       cantidadMostrar = element.data.cantProduct;
-      // console.log(element.data);
-
+      console.log(element.data);
+      
       if (contBodyTable === "") {
         $('#enviar').show();
         $("#contTotalSi").show();
@@ -123,6 +101,7 @@ $(window).on("load", function () {
       };
       listaProdApi.push(item);
       element.data.idTemp = `${element.data.name}${element.data.price}${element.data.stock}${element.data.category}${i}`;
+      element.data.cantidadProd = `${cantidadMostrar}`;
       i++;
       total += parseInt(element.data.price) * parseInt(cantidadMostrar);
 
@@ -132,9 +111,7 @@ $(window).on("load", function () {
     $("#table").html(contBodyTable);
     $("#total").html(`${formatNumber(total)}`);
     removerProd();
-    if($('#footer').length > 0){
-      positionFooter(0);
-    }
+    positionFooter();
   };
 
   cargarTabla();
@@ -154,9 +131,7 @@ $(window).on("load", function () {
   let verificarStock = function (allProds) {
     let stockOk = true;
     let prodEncontrado = false;
-    let todosProdEncontrados = true;
     for (let prod of listaProdApi) {
-      prodEncontrado = false;
       allProds.data.forEach(element => {
         if (prod._id == `${element.data.name}${element.data.price}${element.data.stock}${element.data.category}`) {
           prodEncontrado = true;
@@ -172,11 +147,8 @@ $(window).on("load", function () {
           }
         }
       });
-      if(!prodEncontrado){
-        todosProdEncontrados = false;
-      }
     }
-    if (todosProdEncontrados && stockOk) {
+    if (prodEncontrado && stockOk) {
       modificarApi(listaProdApi);
     }
   }
@@ -196,13 +168,14 @@ $(window).on("load", function () {
         let upDateProd = async () => {
           const apiUrl = 'https://vuvqioudotixkoy.form.io/productos/submission/'
           let response = await axios.put(`${apiUrl}${element._id}`, datosUpdate)
+          //console.log(response);
         }
         upDateProd();
       } catch (error) {
         console.log(error);
       }
     });
-    //todoBien???????????
+    //todoBien?
     imprimirBoleta(listaCompra);
   }
 
@@ -262,6 +235,6 @@ $(window).on("load", function () {
     localStorage.removeItem("carrito");
     $('#ModalRespuesta').modal('show');
   }
-  // positionFooter();
+  positionFooter();
 
 });
