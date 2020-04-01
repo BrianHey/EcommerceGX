@@ -118,6 +118,12 @@ function verificarProdYaSelected(name, imageSrc, price, stock, category, cantPro
   detalleAlCarro.forEach(element => {
     if((name + imageSrc + price + stock + category) == (element.data.name + element.data.imageSrc + element.data.price + element.data.stock + element.data.category)){
       Swal.fire({
+        showClass: {
+          popup: 'animated fadeInDown faster'
+        },
+        hideClass: {
+          popup: 'animated fadeOutUp faster'
+        },
         title: 'Aviso, contenido del carrito',
         text: `El producto seleccionado "${name}" ya tiene ${element.data.cantProduct} unidades en el carrito.`,
         icon: 'warning',
