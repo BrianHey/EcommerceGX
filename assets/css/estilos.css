@@ -12,7 +12,8 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  padding: 20%;
+  max-height: 60vh;
+  padding: 30px;
 }
 
 .container {

@@ -20,25 +20,22 @@ body {
   padding-left: 3rem;
   padding-right: 3rem;
   padding-top: 1rem;
-  padding-bottom: 0.3rem;
   border-radius: 1.5rem;
-  margin-bottom: 2rem;
 }
 .contTotalSi {
   margin-top: 0px;
   font-size: 2rem;
   text-align: right;
-  color: white;
   padding-right: 3rem;
-  background-color: #6b6767;
+  background-color: #4caf50;
   font-weight: bold;
   display: none;
 }
 #table th {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: center;
-  background-color: #6b6767;
+  text-align: left;
+  background-color: #4caf50;
   color: white;
 }
 #table tr:nth-child(even) {
@@ -93,7 +90,6 @@ body {
   padding-right: 15px;
   padding-left: 15px;
   width: 100%;
-  /* padding-bottom: 0.5rem; */
 }
 .iconos {
   background-color: gainsboro;
@@ -102,8 +98,5 @@ body {
   clear: both;
   position: relative;
   margin-bottom: 0px;
-}
-.footer-copyright a{
-  margin-bottom: 1rem;
 }
 
