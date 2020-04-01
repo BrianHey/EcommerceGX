@@ -1,160 +1,235 @@
 $(window).on("load", function () {
-  let detalleAlCarro = [];
-//   localStorage.removeItem("carrito");
 
-  let carrito = {
-    data: [
-      {
-        name: 'Guitarra DEAN 350f',
-        price: 350000,
-        stock: 5,
-        imageSrc: 'https://i.ebayimg.com/images/g/BX8AAOSwzvhd9BHN/s-l640.jpg',
-        category: 'Music instruments'
-      },
-    ]
-  };
+  let cargarNav = function () {
+    $("#nav").load("assets/templates/nav.html");
+  }
+  cargarNav();
 
-  //para guardar:
-  // localStorage.setItem("carrito", JSON.stringify(carrito));
+  let cargarPiePag = function(){
+    $("#pie").load("assets/templates/footer.html", function (responseTxt, statusTxt, jqXHR) {
+      if (statusTxt == "success") {
+        positionFooter(-64);
+      }
+    });
+  }
+  cargarPiePag();
 
-  //para recuperar
- 
-    detalleAlCarro = JSON.parse(localStorage.getItem('carrito')).data;
+
+  let positionFooter = function (margen) {
+    let footerTop = $('#footer').position().top + $('#footer').height();
+    if (footerTop < $(window).height()) {
+      $('#footer').css('margin-top', ((margen) + ($(window).height() - footerTop)) + 'px');
+    }
+  }
 
   
-  // detalleAlCarro = [
-  //     {
 
-  //     }
-  // ];
-  //ejemplo de detalleAlCarro:
-  // detalleAlCarro = [
-  //     {
-  //         id_prod: 1,
-  //         nombre: "Guitarra DEAN 350f Guitarra DEAN 350f Guitarra DEAN 350f Guitarra DEAN 350f",
-  //         valor: 1000,
-  //         cantidad: 2,
-  //         categoria: "cat1",
-  //         img: "https://i.ebayimg.com/images/g/BX8AAOSwzvhd9BHN/s-l640.jpg"
-  //     },
-  //     {
-  //         id_prod: 10,
-  //         nombre: "articulo2",
-  //         valor: 500,
-  //         cantidad: 15,
-  //         categoria: "cat3",
-  //         img: "https://i.ebayimg.com/images/g/BX8AAOSwzvhd9BHN/s-l640.jpg"
-  //     },
-  //     {
-  //         id_prod: 7,
-  //         nombre: "articulo3",
-  //         valor: 100000,
-  //         cantidad: 1,
-  //         categoria: "cat2",
-  //         img: "https://i.ebayimg.com/images/g/BX8AAOSwzvhd9BHN/s-l640.jpg"
-  //     },
-  //     {
-  //         id_prod: 3,
-  //         nombre: "articulo4",
-  //         valor: 54000,
-  //         cantidad: 1,
-  //         categoria: "cat1",
-  //         img: "https://i.ebayimg.com/images/g/BX8AAOSwzvhd9BHN/s-l640.jpg"
-  //     }
-  // ];
+  let detalleAlCarro = []; //lista de productos
+  let listaProdApi = [];//informacion base para hacer PUT en API
 
-  function cargarEventoClick() {
+  if (localStorage.carrito) {
+    detalleAlCarro = JSON.parse(localStorage.getItem('carrito'));
+    //agrupar productos agruparProductos(detalleAlCarro)
+  }
 
-    // $('button, [name="retirar"]').on("click", function () {
+  let agruparProductos = function(listaBrutaProdSelected){
+    detalleAlCarro.forEach(element => {
+      //generar array temporal para copiar elementos
+      //recorrer TODO el array buscando coincidencias por id_virtual (no tengo de otra)
+        //si se encuentran, agregar al elemento primario y eliminar
+        //mejorar procedimiento ***************
 
-    //   let identi = $(this).attr("id");
-    //   detalleAlCarro = detalleAlCarro.filter(function (element) {
-    //     return `${element.data.name}${element.data.price}${element.data.stock}${element.data.category}` != identi;
-    //   });
-    //   cargarTabla();
-    // });
+        //EN CONSTRUCCIÓN, no molestar!!!
+    });
   }
 
   function formatNumber(num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
   }
 
-  let respuesta = [];
+  function removerProd() {
+    $('[name="retirar"]').on("click", function (e) {
+      let identi = $(this).attr("id");
+      removerProd2(identi);
+    });
+  }
+  function removerProd2(idProd) {
+    detalleAlCarro = detalleAlCarro.filter(function (element) {
+
+      if (`${element.data.idTemp}` != idProd) {
+        return true;
+      } else {
+        if (element.data.cantProduct > 1) {
+          element.data.cantProduct--;
+          return true;
+        } else {
+          return false;
+        }
+      }
+    });
+    localStorage.setItem('carrito', JSON.stringify(detalleAlCarro))
+    cargarTabla();
+  }
+
+  const ordenarArray = function (a, b) {
+    var aName = a.data.name.toLowerCase();
+    var bName = b.data.name.toLowerCase();
+    return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+  }
 
   const cargarTabla = function () {
     $('#enviar').hide();
-    respuesta = [];
+    listaProdApi = [];
     $("#table").html("");
+    $("#contTotalSi").hide();
+    $("#contTotalNo").show();
     $("#total").html("0");
     let contBodyTable = "";
     let total = 0;
-
     let i = 1;
+    let cantidadMostrar = 1;
 
-    detalleAlCarro = JSON.parse(localStorage.getItem('carrito'))
-
-    console.log(detalleAlCarro);
-    
+    detalleAlCarro.sort(ordenarArray);
     detalleAlCarro.forEach(element => {
+
+      cantidadMostrar = element.data.cantProduct;
+      // console.log(element.data);
 
       if (contBodyTable === "") {
         $('#enviar').show();
-        contBodyTable += `<thead><tr><th>#</th><th>Descripción</th><th>Imagen</th><th>Val Unit</th><th>cantidadidad.</th><th>Total</th><th></th></tr></thead><tbody>`;
+        $("#contTotalSi").show();
+        $("#contTotalNo").hide();
+        contBodyTable += `<thead><tr><th>#</th><th>Descripción</th><th>Imagen</th><th>Val. Unit.</th><th>Cant.</th><th>Total</th><th></th></tr></thead><tbody>`;
       }
 
-      contBodyTable += `<tr><td>${i}</td><td>${element.data.name}</td><td><img src="${element.data.imageSrc}" alt="thumb" class="imagenThumb"></td><td class="numeros">${formatNumber(element.data.price)}</td><td class="numeros">${formatNumber(element.data.stock)}</td><td class="numeros">${formatNumber(parseInt(element.data.price) * parseInt(element.data.stock))}</td><td><button type="button" class="btn btn-primary" name="retirar" id="${element.data.name}${element.data.price}${element.data.stock}${element.data.category}">  X  </button></td>`;
+      contBodyTable += `
+      <tr>
+      <td class="">${i}</td>
+      <td class="">${element.data.name}</td>
+      <td class=""><img src="${element.data.imageSrc}" alt="thumb" class="imagenThumb"></td>
+      <td class="numeros ">${formatNumber(element.data.price)}</td>
+      <td class="numeros ">${cantidadMostrar}</td>
+      <td class="numeros ">${formatNumber(parseInt(element.data.price) * parseInt(cantidadMostrar))}</td>
+      <td><button type="button" class="btn btn-light botonEliminar" name="retirar" id="${element.data.name}${element.data.price}${element.data.stock}${element.data.category}${i}" >x</button></td></tr>`;
 
       let item = {
-        // id: element.data.id_prod,
-        cantidadidadidad: element.stock
+        _id: `${element.data.name}${element.data.price}${element.data.stock}${element.data.category}`,
+        name: element.data.name,
+        price: element.data.price,
+        stock: `${cantidadMostrar}`,
+        category: element.data.category,
+        imageSrc: element.data.imageSrc,
+        numProd: `${i}`
       };
-      respuesta.push(item);
-
-      contBodyTable += `</tr>`;
+      listaProdApi.push(item);
+      element.data.idTemp = `${element.data.name}${element.data.price}${element.data.stock}${element.data.category}${i}`;
       i++;
-      total += parseInt(element.data.price) * parseInt(element.data.stock);
+      total += parseInt(element.data.price) * parseInt(cantidadMostrar);
+
     });
 
     contBodyTable += `</tbody>`;
     $("#table").html(contBodyTable);
     $("#total").html(`${formatNumber(total)}`);
-
-    cargarEventoClick();
-
-
+    removerProd();
+    if($('#footer').length > 0){
+      positionFooter(0);
+    }
   };
 
   cargarTabla();
 
 
-
   $("#enviar").on("click", function () {
-    // console.log("antes");
+    //verificar stock de todos los productos
+    const getProds = async () => {
+      const Url = 'https://vuvqioudotixkoy.form.io/productos/submission'
+      let listaProds = await axios.get(Url)
+      verificarStock(listaProds);
+    }
+    getProds();
+  });
+
+
+  let verificarStock = function (allProds) {
+    let stockOk = true;
+    let prodEncontrado = false;
+    let todosProdEncontrados = true;
+    for (let prod of listaProdApi) {
+      prodEncontrado = false;
+      allProds.data.forEach(element => {
+        if (prod._id == `${element.data.name}${element.data.price}${element.data.stock}${element.data.category}`) {
+          prodEncontrado = true;
+          if (element.data.stock < prod.stock) {
+            stockOk = false;
+            //mensaje - retirar producto - recargar tabla
+            Swal.fire(`Producto "${element.data.name}" no registra stock suficiente`);
+            removerProd2(`${element.data.name}${element.data.price}${element.data.stock}${element.data.category}${prod.numProd}`)
+          } else {
+            prod._id = element._id;
+            prod.cantBoleta = prod.stock;
+            prod.stock = element.data.stock - prod.stock;
+          }
+        }
+      });
+      if(!prodEncontrado){
+        todosProdEncontrados = false;
+      }
+    }
+    if (todosProdEncontrados && stockOk) {
+      modificarApi(listaProdApi);
+    }
+  }
+
+  let modificarApi = function (listaCompra) {
+    listaCompra.forEach(element => {
+      try {
+        let datosUpdate = {
+          data: {
+            name: element.name,
+            price: element.price,
+            stock: element.stock,
+            category: element.category,
+            imageSrc: element.imageSrc
+          }
+        }
+        let upDateProd = async () => {
+          const apiUrl = 'https://vuvqioudotixkoy.form.io/productos/submission/'
+          let response = await axios.put(`${apiUrl}${element._id}`, datosUpdate)
+        }
+        upDateProd();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    //todoBien???????????
+    imprimirBoleta(listaCompra);
+  }
+
+  let imprimirBoleta = function (listaCompra) {
     let pdf = new jsPDF();
-
     let fecha = new Date();
-
-    pdf.text(5, 5, "Boleta Electrónica -  LAVANDERIA JUANITO");
-    pdf.text(5, 10, fecha.getDate() + '/' + (fecha.getMonth() + 1) + '/' + fecha.getFullYear());
+    pdf.text(5, 5, "Boleta Electrónica");
+    pdf.text(5, 12, fecha.getDate() + '/' + (fecha.getMonth() + 1) + '/' + fecha.getFullYear());
 
     //GENERAR PDF
     let total = 0;
     let i = 1;
     let y = 30;
     let salto = 10;
-    detalleAlCarro.forEach(element => {
+    listaCompra.forEach(element => {
 
       let maxLength = 40;
-      if (element.data.name.length > maxLength) {
-        pdf.text(150, y, '  :   $' + formatNumber(parseInt(element.data.price) * parseInt(element.data.stock)));
-        let ArrayNomArt = element.data.name.split(" ");
+      if (element.name.length > maxLength) {
+        pdf.text(150, y, '  :   $' + formatNumber(parseInt(element.price) * parseInt(element.cantBoleta)));
+        let ArrayNomArt = element.name.split(" ");
         let firsLine = true;
         let acumulado = "";
         for (let w = 0; w < ArrayNomArt.length; w++) {
 
           if ((acumulado + " " + ArrayNomArt[w]).length > maxLength) {
             if (firsLine) {
-              pdf.text(10, y, i + '.- ' + ' ' + formatNumber(element.data.stock) + '  *  ' + acumulado);
+              pdf.text(10, y, i + '.- ' + ' ' + formatNumber(element.cantBoleta) + '  *  ' + acumulado);
               firsLine = false;
             } else {
               pdf.text(30, y, acumulado);
@@ -174,16 +249,19 @@ $(window).on("load", function () {
         }
 
       } else {
-        // nombreArticulo = element.nombre;
-        pdf.text(10, y, i + '.- ' + ' ' + formatNumber(element.data.stock) + '  *  ' + element.data.name);
-        pdf.text(150, y, '  :   $' + formatNumber(parseInt(element.data.price) * parseInt(element.data.stock)));
+        pdf.text(10, y, i + '.- ' + ' ' + formatNumber(element.cantBoleta) + '  *  ' + element.name);
+        pdf.text(150, y, '  :   $' + formatNumber(parseInt(element.price) * parseInt(element.cantBoleta)));
         y = y + salto;
       }
 
       i++;
-      total += parseInt(element.data.price) * parseInt(element.data.stock);
+      total += parseInt(element.price) * parseInt(element.cantBoleta);
     });
     pdf.text(130, (y + 15), 'Total     ' + '  : $' + formatNumber(total));
     pdf.save("sample-file.pdf");
-  });
+    localStorage.removeItem("carrito");
+    $('#ModalRespuesta').modal('show');
+  }
+  // positionFooter();
+
 });

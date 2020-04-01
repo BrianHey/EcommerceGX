@@ -1,17 +1,15 @@
 .e {
-    width: 70px;
-    
+  width: 70px;
 }
 .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
 }
 #ColCategorias{
     padding-left: inherit;
 }
-.fondo {
   
     background-image: url('../img/fondop.jpeg');
     background-repeat: no-repeat;
@@ -20,39 +18,48 @@
     padding: 20%;
     height: 100px;
       
-}
 
 .container {
-    margin-right: auto;
-    margin-left: auto;
-    padding-right: 15px;
-    padding-left: 15px;
-    width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 100%;
 }
 .fecha {
-    color: rgb(242, 182, 22);
-    font-size: 60px;
-    font-weight: 700;
-    margin-top: 0;
-    padding-bottom: 30px;
-    margin-bottom: 50px;
+  color: rgb(242, 182, 22);
+  font-size: 60px;
+  font-weight: 700;
+  margin-top: 0;
+  padding-bottom: 30px;
+  margin-bottom: 50px;
 }
 
 .compre {
-    color: white;
-    font-size: 50px;
-    font-weight: 600;
-
+  color: white;
+  font-size: 50px;
+  font-weight: 600;
 }
-
 
 .producto {
-   margin: 50px;
-    padding-top: 100px;
+  margin: 50px;
+  padding-top: 100px;
 }
 .iconos {
-    background-color: gainsboro;
-    text-align: center;
+  background-color: gainsboro;
+  text-align: center;
+}
+
+#imagenesCards {
+  width: 90%;
+  height: 150px;
+  margin: auto;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 
+ul,ol ,li {
+  list-style: none;
+}
