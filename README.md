@@ -22,8 +22,7 @@ Este Ecommerce fue hecho por motivos académicos para los alumnos de Frontend de
   * 6.- Agregar valoración de los productos para mostrar por estrellas su calificación segun 'usuarios'.
   * 7.- Agregar sección que muestre en la página de inicio el monto acumulado en el carrito.
 
+- Bugs:
+  * El "Total a pagar" Muestra NaN cuando se abre el Ecommerce desde un explorador nuevo, sin la variable de localStorage almacenada todavía
 
 
-Ejemplo de cambios dinmicos
-
-OTRA VEZ
