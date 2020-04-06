@@ -29,19 +29,8 @@ $(window).on("load", function () {
 
   if (localStorage.carrito) {
     detalleAlCarro = JSON.parse(localStorage.getItem('carrito'));
-    //agrupar productos agruparProductos(detalleAlCarro)
   }
 
-  let agruparProductos = function(listaBrutaProdSelected){
-    detalleAlCarro.forEach(element => {
-      //generar array temporal para copiar elementos
-      //recorrer TODO el array buscando coincidencias por id_virtual (no tengo de otra)
-        //si se encuentran, agregar al elemento primario y eliminar
-        //mejorar procedimiento ***************
-
-        //EN CONSTRUCCIÓN, no molestar!!!
-    });
-  }
 
   function formatNumber(num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
@@ -67,7 +56,11 @@ $(window).on("load", function () {
         }
       }
     });
-    localStorage.setItem('carrito', JSON.stringify(detalleAlCarro))
+    if(detalleAlCarro.length > 0){
+      localStorage.setItem('carrito', JSON.stringify(detalleAlCarro))
+    }else{
+      localStorage.removeItem('carrito');
+    }
     cargarTabla();
   }
 
