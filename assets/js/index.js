@@ -11,8 +11,8 @@ $(document).ready(function () {
 // Funciones Lógicas para la lista de productos
 const getProducts = async page => {
   let apiUrl = 'https://vuvqioudotixkoy.form.io/productos/submission?limit=4'
-    if(page){
-      console.log(page)
+  if(page){
+      // console.log(page)
       apiUrl = `${apiUrl}&skip=${page}`
       $('.anterior').css('display', 'block')
   }
@@ -56,7 +56,6 @@ const createProductTemplate = (name, price, stock, category, imageSrc, i) => {
   let template = `
   
   <div class="card col-3 my-2 py-3">
-    
     <h6 class="card-title titleOne"> <label class ="card-title">${name}</label> </h6>
       <div id="imagenesCards" style="background-image: url(${imageSrc})" ></div>  
       <p class="card-text"> Valor: $ ${price}</p>      
@@ -143,6 +142,7 @@ $('#search').keypress(function(event){
 
 $('.btnCategory').click(function() {
   let valor = this.value
+  console.log(valor);
   $('.product-list').html('');
     $.ajax({
            url: `https://vuvqioudotixkoy.form.io/productos/submission`,
@@ -181,6 +181,8 @@ $('.btnCategory').click(function() {
      }
     }
   })
+});
+
 
 $('#search').keyup(function () {
   let productoTitle = $('.card-title');
